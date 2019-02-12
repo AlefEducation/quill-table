@@ -1,4 +1,5 @@
 .ql-editor table {
+    table-layout: fixed;
     width: 100%;
     border-collapse: collapse;
 }
@@ -332,7 +333,6 @@ span.ql-table-border [data-value="border-grid"] {
 }
 
 .ql-table-border .ql-picker-label {
-    margin-top: 2px;
     width: 20px;
     height: 20px;
     background-repeat: no-repeat;
@@ -499,4 +499,8 @@ span.ql-table-color .ql-picker-item[data-value='#002966'] {
 }
 span.ql-table-color .ql-picker-item[data-value='#3d1466'] {
     background-color: #3d1466;
+}
+
+.ql-table[value=merge]:after {
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiB2aWV3Qm94PSIwIDAgMjAgMjAiPiAgPHRpdGxlPiAgICBtZXJnZSBjZWxscyAgPC90aXRsZT4gIDxwYXRoIGQ9Ik00IDExdjNsNS00LTUtNHYzSDB2Mmg0em0xMiAwdjNsLTUtNCA1LTR2M2g0djJoLTR6TTIgMTZ2LTNIMHY1aDh2LTJIMnoiLz4gIDxwYXRoIGQ9Ik0wIDJ2NWgyVjRoNlYySDB6bTE4IDExdjNoLTZ2Mmg4di01aC0yek0xMiAydjJoNnYzaDJWMmgtOHoiLz48L3N2Zz4=);
 }

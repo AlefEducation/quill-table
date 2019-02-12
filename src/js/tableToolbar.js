@@ -48,6 +48,7 @@ const tableToolbar = [
   {table: 'delete-row'},
   {table: 'append-col'},
   {table: 'delete-col'},
+  {table: 'merge'},
   {'table-color': colors},
   {'table-border': ['border-grid', 'border-outline', 'border-none']},
 ]
