@@ -45,3 +45,8 @@ const Editor = new Quill(document.getElementById('quillContainer'), {
         readOnly: false,
     }
 );
+
+const button = document.createElement('button')
+button.textContent = 'content'
+button.onclick = () => console.log(Editor.getContents())
+document.getElementById('quillContainer').parentElement.appendChild(button)

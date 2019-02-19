@@ -201,18 +201,22 @@ export default class TableTrick {
           quill.setSelection(index, length)
         } else if (value === 'border-outline') {
           let table = TableTrick.findTable(quill)
+          const { index, length } = quill.getSelection()
           if (table) {
             this.resetGridBorders(table)
             table.domNode.classList.add('table-border-outline')
           }
+          quill.setSelection(index+1, length)
         } else if (value === 'border-grid') {
+          const { index, length } = quill.getSelection()
           let table = TableTrick.findTable(quill);
           if (table) {
-           this.resetGridBorders(table)
+            this.resetGridBorders(table)
           }
+          quill.setSelection(index+1, length)
         } else if (value.startsWith('#')) {
-          const currentElement = TableTrick.getSelectedTd(quill)
           const { index, length } = quill.getSelection()
+          const currentElement = TableTrick.getSelectedTd(quill)
           for (let i=0; i < length; i++) {
             const td = quill.getLeaf(index + i)[0].parent.parent
             if (td instanceof TableCell) {
@@ -222,8 +226,9 @@ export default class TableTrick {
           }
           currentElement.domNode.style.backgroundColor = value
           currentElement.domNode.setAttribute('color', value)
+          quill.setSelection(index+1, length)
         } else {
-            let table_id = TableTrick.random_id();
+          let table_id = TableTrick.random_id();
             let table = Parchment.create('table', table_id);
 
             let leaf = quill.getLeaf(quill.getSelection()['index']);

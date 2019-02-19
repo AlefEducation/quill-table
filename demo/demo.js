@@ -11989,24 +11989,34 @@ var TableTrick = function () {
         quill.setSelection(_index2, _length2);
       } else if (value === 'border-outline') {
         var _table4 = TableTrick.findTable(quill);
-        if (_table4) {
-          this.resetGridBorders(_table4);
-          _table4.domNode.classList.add('table-border-outline');
-        }
-      } else if (value === 'border-grid') {
-        var _table5 = TableTrick.findTable(quill);
-        if (_table5) {
-          this.resetGridBorders(_table5);
-        }
-      } else if (value.startsWith('#')) {
-        var currentElement = TableTrick.getSelectedTd(quill);
 
         var _quill$getSelection4 = quill.getSelection(),
             _index3 = _quill$getSelection4.index,
             _length3 = _quill$getSelection4.length;
 
-        for (var _i = 0; _i < _length3; _i++) {
-          var _td4 = quill.getLeaf(_index3 + _i)[0].parent.parent;
+        if (_table4) {
+          this.resetGridBorders(_table4);
+          _table4.domNode.classList.add('table-border-outline');
+        }
+        quill.setSelection(_index3 + 1, _length3);
+      } else if (value === 'border-grid') {
+        var _quill$getSelection5 = quill.getSelection(),
+            _index4 = _quill$getSelection5.index,
+            _length4 = _quill$getSelection5.length;
+
+        var _table5 = TableTrick.findTable(quill);
+        if (_table5) {
+          this.resetGridBorders(_table5);
+        }
+        quill.setSelection(_index4 + 1, _length4);
+      } else if (value.startsWith('#')) {
+        var _quill$getSelection6 = quill.getSelection(),
+            _index5 = _quill$getSelection6.index,
+            _length5 = _quill$getSelection6.length;
+
+        var currentElement = TableTrick.getSelectedTd(quill);
+        for (var _i = 0; _i < _length5; _i++) {
+          var _td4 = quill.getLeaf(_index5 + _i)[0].parent.parent;
           if (_td4 instanceof _TableCellBlot2.default) {
             _td4.domNode.style.backgroundColor = value;
             _td4.domNode.setAttribute('color', value);
@@ -12014,6 +12024,7 @@ var TableTrick = function () {
         }
         currentElement.domNode.style.backgroundColor = value;
         currentElement.domNode.setAttribute('color', value);
+        quill.setSelection(_index5 + 1, _length5);
       } else {
         var _table_id3 = TableTrick.random_id();
         var _table6 = Parchment.create('table', _table_id3);
@@ -14497,6 +14508,13 @@ var Editor = new Quill(document.getElementById('quillContainer'), {
     theme: 'snow',
     readOnly: false
 });
+
+var button = document.createElement('button');
+button.textContent = 'content';
+button.onclick = function () {
+    return console.log(Editor.getContents());
+};
+document.getElementById('quillContainer').parentElement.appendChild(button);
 
 /***/ }),
 /* 103 */
@@ -21969,6 +21987,8 @@ var Resize = exports.Resize = function (_BaseModule) {
             // store the width before the drag
             _this.preDragWidth = _this.table.style.width || _this.table.offsetWidth;
             // set the proper cursor everywhere
+            _this.preDragSelection = _this.quill.getSelection();
+            // set the proper cursor everywhere
             _this.setCursor(_this.dragBox.style.cursor);
             // listen for movement and mouseup
             document.addEventListener('mousemove', _this.handleDrag, false);
@@ -21976,6 +21996,7 @@ var Resize = exports.Resize = function (_BaseModule) {
         }, _this.handleMouseup = function () {
             // reset cursor everywhere
             _this.setCursor('');
+            _this.quill.setSelection(_this.preDragSelection.index + 1, _this.preDragSelection.index);
             // stop listening for movement and mouseup
             document.removeEventListener('mousemove', _this.handleDrag);
             document.removeEventListener('mouseup', _this.handleMouseup);
@@ -22037,6 +22058,7 @@ var BaseModule = exports.BaseModule = function BaseModule(resizer) {
     this.table = resizer.table;
     this.options = resizer.options;
     this.requestUpdate = resizer.onUpdate;
+    this.quill = resizer.quill;
 }
 /*
     requestUpdate (passed in by the library during construction, above) can be used to let the library know that

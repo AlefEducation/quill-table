@@ -4,6 +4,7 @@ export class BaseModule {
         this.table = resizer.table;
         this.options = resizer.options;
         this.requestUpdate = resizer.onUpdate;
+        this.quill = resizer.quill;
     }
     /*
         requestUpdate (passed in by the library during construction, above) can be used to let the library know that

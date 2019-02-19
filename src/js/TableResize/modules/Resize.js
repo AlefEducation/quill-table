@@ -62,6 +62,8 @@ export class Resize extends BaseModule {
         // store the width before the drag
         this.preDragWidth = this.table.style.width || this.table.offsetWidth;
         // set the proper cursor everywhere
+        this.preDragSelection = this.quill.getSelection();
+        // set the proper cursor everywhere
         this.setCursor(this.dragBox.style.cursor);
         // listen for movement and mouseup
         document.addEventListener('mousemove', this.handleDrag, false);
@@ -71,6 +73,7 @@ export class Resize extends BaseModule {
     handleMouseup = () => {
         // reset cursor everywhere
         this.setCursor('');
+        this.quill.setSelection(this.preDragSelection.index+1, this.preDragSelection.index)
         // stop listening for movement and mouseup
         document.removeEventListener('mousemove', this.handleDrag);
         document.removeEventListener('mouseup', this.handleMouseup);
