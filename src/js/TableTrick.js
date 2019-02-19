@@ -95,6 +95,8 @@ export default class TableTrick {
             return node;
         } else if (value === 'append-col') {
           let td = TableTrick.getSelectedTd(quill);
+          const { index, length } = quill.getSelection()
+
           if (td) {
             const { index, length } = quill.getSelection()
             const columnNumber = parseInt(TableTrick.getCell(quill).domNode.getAttribute('column'))
