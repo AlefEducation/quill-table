@@ -11868,11 +11868,12 @@ var TableTrick = function () {
         return node;
       } else if (value === 'append-col') {
         var _td = TableTrick.getSelectedTd(quill);
-        if (_td) {
-          var _quill$getSelection = quill.getSelection(),
-              index = _quill$getSelection.index,
-              length = _quill$getSelection.length;
 
+        var _quill$getSelection = quill.getSelection(),
+            index = _quill$getSelection.index,
+            length = _quill$getSelection.length;
+
+        if (_td) {
           var columnNumber = parseInt(TableTrick.getCell(quill).domNode.getAttribute('column'));
           var _table = _td.parent.parent;
           var _table_id = _table.domNode.getAttribute('table_id');
@@ -11893,6 +11894,7 @@ var TableTrick = function () {
               tr.appendChild(td);
             }
           });
+          TableTrick.updateColumnNumbers(quill);
           quill.setSelection(index, length);
         }
       } else if (value === 'append-row') {

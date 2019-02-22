@@ -96,9 +96,7 @@ export default class TableTrick {
         } else if (value === 'append-col') {
           let td = TableTrick.getSelectedTd(quill);
           const { index, length } = quill.getSelection()
-
           if (td) {
-            const { index, length } = quill.getSelection()
             const columnNumber = parseInt(TableTrick.getCell(quill).domNode.getAttribute('column'))
             let table = td.parent.parent;
             let table_id = table.domNode.getAttribute('table_id');
@@ -117,6 +115,7 @@ export default class TableTrick {
                 tr.appendChild(td);
               }
             });
+            TableTrick.updateColumnNumbers(quill)
             quill.setSelection(index, length)
           }
         } else if (value === 'append-row') {
