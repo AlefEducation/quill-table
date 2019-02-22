@@ -11978,12 +11978,21 @@ var TableTrick = function () {
           }
         }
         var cellsToRemove = (0, _values2.default)(cellsToRemoveMap);
+
         var totalColspan = [firstElement].concat((0, _toConsumableArray3.default)(cellsToRemove)).map(function (td) {
           return document.body.contains(td.domNode) ? parseInt(td.domNode.getAttribute('colspan')) : 0;
         }).reduce(function (a, b) {
           return a + b;
         });
+
+        var htmlToMerge = [firstElement].concat((0, _toConsumableArray3.default)(cellsToRemove)).map(function (td) {
+          return document.body.contains(td.domNode) ? td.domNode.innerHTML : '';
+        }).reduce(function (a, b) {
+          return a + b;
+        });
+
         firstElement.domNode.setAttribute('colspan', '' + totalColspan);
+        firstElement.domNode.innerHTML = htmlToMerge;
         cellsToRemove.forEach(function (cell) {
           return cell.remove();
         });

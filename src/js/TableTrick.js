@@ -193,10 +193,17 @@ export default class TableTrick {
             }
           }
           const cellsToRemove = Object.values(cellsToRemoveMap)
+
           const totalColspan = [firstElement, ...cellsToRemove].map(td=>{
             return document.body.contains(td.domNode) ? parseInt((td.domNode.getAttribute('colspan'))) : 0
           }).reduce((a,b)=>a+b)
+
+          const htmlToMerge = [firstElement, ...cellsToRemove].map(td=>{
+            return document.body.contains(td.domNode) ? td.domNode.innerHTML : ''
+          }).reduce((a,b)=>a+b)
+
           firstElement.domNode.setAttribute('colspan', `${totalColspan}`)
+          firstElement.domNode.innerHTML = htmlToMerge
           cellsToRemove.forEach(cell => cell.remove())
           TableTrick.updateColumnNumbers(quill)
           quill.setSelection(index, length)
