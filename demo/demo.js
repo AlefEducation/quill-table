@@ -11832,6 +11832,7 @@ var TableTrick = function () {
   }, {
     key: 'table_handler',
     value: function table_handler(value, quill) {
+      var isTableSelected = TableTrick.getSelectedTd(quill);
       if (value.includes('newtable_')) {
         var node = null;
         var sizes = value.split('_');
@@ -11866,7 +11867,7 @@ var TableTrick = function () {
         }
         blot.insertBefore(table, top_branch);
         return node;
-      } else if (value === 'append-col') {
+      } else if (value === 'append-col' && isTableSelected) {
         var _td = TableTrick.getSelectedTd(quill);
 
         var _quill$getSelection = quill.getSelection(),
@@ -11897,7 +11898,7 @@ var TableTrick = function () {
           TableTrick.updateColumnNumbers(quill);
           quill.setSelection(index, length);
         }
-      } else if (value === 'append-row') {
+      } else if (value === 'append-row' && isTableSelected) {
         var _td2 = TableTrick.getSelectedTd(quill);
         if (_td2) {
           var _quill$getSelection2 = quill.getSelection(),
@@ -11930,7 +11931,7 @@ var TableTrick = function () {
           TableTrick.updateColumnNumbers(quill);
           quill.setSelection(_index, _length);
         }
-      } else if (value === 'delete-col') {
+      } else if (value === 'delete-col' && isTableSelected) {
         var cell = this.getCell(quill);
         var _columnNumber = cell.domNode.getAttribute('column');
         var tableId = cell.domNode.getAttribute('table_id');
@@ -11949,16 +11950,16 @@ var TableTrick = function () {
           }
         });
         TableTrick.updateColumnNumbers(quill);
-      } else if (value === 'delete-row') {
+      } else if (value === 'delete-row' && isTableSelected) {
         var _cell = this.getCell(quill);
         _cell.parent.domNode.remove();
-      } else if (value === 'border-none') {
+      } else if (value === 'border-none' && isTableSelected) {
         var _table3 = TableTrick.findTable(quill);
         if (_table3) {
           this.resetGridBorders(_table3);
           _table3.domNode.classList.add('table-border-none');
         }
-      } else if (value === 'merge') {
+      } else if (value === 'merge' && isTableSelected) {
         var _quill$getSelection3 = quill.getSelection(),
             _index2 = _quill$getSelection3.index,
             _length2 = _quill$getSelection3.length;
@@ -11998,7 +11999,7 @@ var TableTrick = function () {
         });
         TableTrick.updateColumnNumbers(quill);
         quill.setSelection(_index2, _length2);
-      } else if (value === 'border-outline') {
+      } else if (value === 'border-outline' && isTableSelected) {
         var _table4 = TableTrick.findTable(quill);
 
         var _quill$getSelection4 = quill.getSelection(),
@@ -12010,7 +12011,7 @@ var TableTrick = function () {
           _table4.domNode.classList.add('table-border-outline');
         }
         quill.setSelection(_index3 + 1, _length3);
-      } else if (value === 'border-grid') {
+      } else if (value === 'border-grid' && isTableSelected) {
         var _quill$getSelection5 = quill.getSelection(),
             _index4 = _quill$getSelection5.index,
             _length4 = _quill$getSelection5.length;
@@ -12020,7 +12021,7 @@ var TableTrick = function () {
           this.resetGridBorders(_table5);
         }
         quill.setSelection(_index4 + 1, _length4);
-      } else if (value.startsWith('#')) {
+      } else if (value.startsWith('#') && isTableSelected) {
         var _quill$getSelection6 = quill.getSelection(),
             _index5 = _quill$getSelection6.index,
             _length5 = _quill$getSelection6.length;
@@ -12036,19 +12037,6 @@ var TableTrick = function () {
         currentElement.domNode.style.backgroundColor = value;
         currentElement.domNode.setAttribute('color', value);
         quill.setSelection(_index5 + 1, _length5);
-      } else {
-        var _table_id3 = TableTrick.random_id();
-        var _table6 = Parchment.create('table', _table_id3);
-
-        var _leaf = quill.getLeaf(quill.getSelection()['index']);
-        var _blot = _leaf[0];
-        var _top_branch = null;
-        for (; _blot != null && !(_blot instanceof Container || _blot instanceof Scroll);) {
-          _top_branch = _blot;
-          _blot = _blot.parent;
-        }
-        _blot.insertBefore(_table6, _top_branch);
-        return _table6;
       }
     }
   }]);
@@ -22181,7 +22169,6 @@ var Toolbar = exports.Toolbar = function (_BaseModule) {
 
         return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Toolbar.__proto__ || (0, _getPrototypeOf2.default)(Toolbar)).call.apply(_ref, [this].concat(args))), _this), _this.onCreate = function () {
             // Setup Toolbar
-            console.log("this.overlay BOOM", _this.overlay);
             _this.toolbar = document.createElement("div");
             (0, _assign2.default)(_this.toolbar.style, _this.options.toolbarStyles);
             _this.overlay.appendChild(_this.toolbar);

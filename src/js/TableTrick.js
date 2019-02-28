@@ -59,6 +59,7 @@ export default class TableTrick {
     }
 
     static table_handler(value, quill) {
+        const isTableSelected = TableTrick.getSelectedTd(quill);
         if (value.includes('newtable_')) {
             let node = null;
             let sizes = value.split('_');
@@ -93,7 +94,7 @@ export default class TableTrick {
             }
             blot.insertBefore(table, top_branch);
             return node;
-        } else if (value === 'append-col') {
+        } else if (value === 'append-col' && isTableSelected) {
           let td = TableTrick.getSelectedTd(quill);
           const { index, length } = quill.getSelection()
           if (td) {
@@ -118,7 +119,7 @@ export default class TableTrick {
             TableTrick.updateColumnNumbers(quill)
             quill.setSelection(index, length)
           }
-        } else if (value === 'append-row') {
+        } else if (value === 'append-row' && isTableSelected) {
           let td = TableTrick.getSelectedTd(quill);
           if (td) {
             const { index, length } = quill.getSelection()
@@ -148,7 +149,7 @@ export default class TableTrick {
             TableTrick.updateColumnNumbers(quill)
             quill.setSelection(index, length)
           }
-        } else if (value === 'delete-col') {
+        } else if (value === 'delete-col' && isTableSelected) {
           const cell = this.getCell(quill)
           const columnNumber = cell.domNode.getAttribute('column')
           const tableId = cell.domNode.getAttribute('table_id')
@@ -167,16 +168,16 @@ export default class TableTrick {
             }
           })
           TableTrick.updateColumnNumbers(quill)
-        } else if (value === 'delete-row') {
+        } else if (value === 'delete-row' && isTableSelected) {
           const cell = this.getCell(quill)
           cell.parent.domNode.remove()
-        } else if (value === 'border-none') {
+        } else if (value === 'border-none' && isTableSelected) {
           let table = TableTrick.findTable(quill)
           if (table) {
             this.resetGridBorders(table)
             table.domNode.classList.add('table-border-none')
           }
-        } else if (value === 'merge') {
+        } else if (value === 'merge' && isTableSelected) {
           const { index, length } = quill.getSelection()
           let firstElement = quill.getLeaf(index)[0].parent.parent;
           const firstElementId = firstElement.domNode.getAttribute('cell_id')
@@ -207,7 +208,7 @@ export default class TableTrick {
           cellsToRemove.forEach(cell => cell.remove())
           TableTrick.updateColumnNumbers(quill)
           quill.setSelection(index, length)
-        } else if (value === 'border-outline') {
+        } else if (value === 'border-outline' && isTableSelected) {
           let table = TableTrick.findTable(quill)
           const { index, length } = quill.getSelection()
           if (table) {
@@ -215,14 +216,14 @@ export default class TableTrick {
             table.domNode.classList.add('table-border-outline')
           }
           quill.setSelection(index+1, length)
-        } else if (value === 'border-grid') {
+        } else if (value === 'border-grid' && isTableSelected) {
           const { index, length } = quill.getSelection()
           let table = TableTrick.findTable(quill);
           if (table) {
             this.resetGridBorders(table)
           }
           quill.setSelection(index+1, length)
-        } else if (value.startsWith('#')) {
+        } else if (value.startsWith('#') && isTableSelected) {
           const { index, length } = quill.getSelection()
           const currentElement = TableTrick.getSelectedTd(quill)
           for (let i=0; i < length; i++) {
@@ -235,19 +236,6 @@ export default class TableTrick {
           currentElement.domNode.style.backgroundColor = value
           currentElement.domNode.setAttribute('color', value)
           quill.setSelection(index+1, length)
-        } else {
-          let table_id = TableTrick.random_id();
-            let table = Parchment.create('table', table_id);
-
-            let leaf = quill.getLeaf(quill.getSelection()['index']);
-            let blot = leaf[0];
-            let top_branch = null;
-            for (; blot != null && !(blot instanceof Container || blot instanceof Scroll);) {
-                top_branch = blot;
-                blot = blot.parent;
-            }
-            blot.insertBefore(table, top_branch);
-            return table;
         }
     }
 }

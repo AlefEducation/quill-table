@@ -16,7 +16,6 @@ const OverflowStyle = new Parchment.Attributor.Style("overflow", "overflow");
 export class Toolbar extends BaseModule {
     onCreate = () => {
         // Setup Toolbar
-        console.log("this.overlay BOOM", this.overlay);
         this.toolbar = document.createElement("div");
         Object.assign(this.toolbar.style, this.options.toolbarStyles);
         this.overlay.appendChild(this.toolbar);
